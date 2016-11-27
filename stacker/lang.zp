@@ -1,0 +1,23 @@
+(let ()
+  (define handle
+    (let* ((stack [])
+           (stack:push! ($ (set! stack (cons % stack))))
+           (stack:pop!
+              (lambda () (let ((x (car stack))) (set! stack (cdr stack)) x))))
+      (case-lambda
+        (() (handle #f))
+        ((input)
+          (cond
+            ((number? input) (stack:push! input))
+            ((or (eq? + input) (eq? * input))
+              (let ((op-result (input (stack:pop!) (stack:pop!))))
+                (stack:push! op-result))))))))
+
+  (define (inject-handle lines)
+    `((let ((handle ,handle)) ,@lines)))
+
+  (define (stacker inpt)
+    (let ((lines (cdr (string:split inpt #\newline))))
+      (inject-handle (map ($ `(handle ,(string:parse %))) lines))))
+
+  (zepto:implements-lang stacker "stacker"))
