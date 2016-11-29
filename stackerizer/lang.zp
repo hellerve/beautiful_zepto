@@ -1,0 +1,18 @@
+(let ()
+  (define-syntax exp
+    (syntax-rules ()
+      ((_ (op f)) 'f)
+      ((_ (op f (r ...))) '(op f (exp (r ...))))
+      ((_ (op f r ...)) '(op f (exp (op r ...))))))
+
+  (define (expand line)
+    (macro-expand `(map write
+                        (filter ($ (not (eq? 'quote %)))
+                                (list:flatten
+                                  ,(list 'exp (string:parse line)))))))
+
+  (define (stacker inpt)
+    (let ((lines (cdr (string:split inpt #\newline))))
+      `(,@(map expand lines) (nil))))
+
+  (zepto:implements-lang stacker "stackerizer"))
