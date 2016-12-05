@@ -1,0 +1,2 @@
+(define (lex elems)
+  (string:filter (curry in? "><.,+-[]") elems))
