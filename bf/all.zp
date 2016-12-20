@@ -1,0 +1,7 @@
+(load "parsecomb/parsecomb")
+(import-all "parsecomb" "pc")
+(load "monads/monads")
+(load "bf/definitions")
+(load "bf/parser")
+(load "bf/macros")
+(load "bf/lang")

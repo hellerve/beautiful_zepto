@@ -1,7 +1,4 @@
-(load "parsecomb/parsecomb")
-(import-all "parsecomb" "pc")
-
-(define-parser op "op"
+(define-parser op 'op
   (pc:one-of
       (pc:char #\>)
       (pc:char #\<)
@@ -10,7 +7,7 @@
       (pc:char #\.)
       (pc:char #\,)))
 
-(define-parser loop "loop"
+(define-parser loop 'loop
   (pc:seq*
     (pc:char #\[)
     (pc:many (pc:either op loop))
@@ -19,5 +16,7 @@
 (define-parser bf
   (pc:many (pc:either op loop)))
 
-(define (parse str)
-  (pc:parse-all bf str))
+(define (parse-bf str)
+  (monads:either (pc:parse-all bf str)
+    (val => val)
+    (err => (error:from-string err))))

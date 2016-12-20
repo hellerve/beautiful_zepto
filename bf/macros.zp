@@ -1,0 +1,11 @@
+(defmacro loop (bracket body ...)
+  (until (zero? (current-byte)) ,(list:but-last 'body)))
+
+(defmacro op (operation)
+  (case operation
+    ((">") (gt))
+    (("<") (lt))
+    (("+") (plus))
+    (("-") (minus))
+    ((".") (period))
+    ((",") (comma))))

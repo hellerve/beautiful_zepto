@@ -1,0 +1,8 @@
+(let ()
+  (define skeleton (parse "bf/skeleton.zp"))
+
+  (define (handle str)
+    (let ((inpt (string:join (cdr (string:split str "\n")) "")))
+      (++ skeleton (parse-bf inpt))))
+
+  (zepto:implements-lang handle "bf"))

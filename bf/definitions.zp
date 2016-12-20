@@ -1,0 +1,5 @@
+(define-syntax until
+  (syntax-rules ()
+    ((_ con forms ...)
+      (let l ()
+        (if con nil (begin forms (l)))))))
